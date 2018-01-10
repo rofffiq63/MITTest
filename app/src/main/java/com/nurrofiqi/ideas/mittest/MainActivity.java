@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> charas = new ArrayList<>(Arrays.asList(chars));
     ArrayList<String> temp = new ArrayList<>();
 
-    int from, to;
+    int from, to, sum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,15 +55,19 @@ public class MainActivity extends AppCompatActivity {
         shiftbutt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (String.valueOf(frominput.getText()).equals("")||String.valueOf(toinput.getText()).equals("")){
+                if (String.valueOf(frominput.getText()).equals("")||String.valueOf(toinput.getText()).equals("")||String.valueOf(suminput.getText()).equals("")){
                     Toast.makeText(MainActivity.this, "pls fill", Toast.LENGTH_SHORT).show();
                 } else {
                     from = Integer.parseInt(String.valueOf(frominput.getText()));
+                    sum = Integer.parseInt(String.valueOf(suminput.getText()));
                     to = Integer.parseInt(String.valueOf(toinput.getText()));
                     Toast.makeText(MainActivity.this, "moved: "+ customAdapter.getItem(from), Toast.LENGTH_SHORT).show();
-                    temp.add(0, (String) customAdapter.getItem(from));
-                    charas.remove(from);
-                    charas.add(to, temp.get(0));
+                    for (int i=0;i<sum;i++){
+                        temp.add(i, (String) customAdapter.getItem(from));
+                        charas.remove(from);
+                    }
+                    charas.addAll(to, temp);
+                    temp.clear();
                     customAdapter.notifyDataSetChanged();
                 }
             }
